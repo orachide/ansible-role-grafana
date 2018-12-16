@@ -1,0 +1,23 @@
+GRAFANA_USER={{ grafana_user }}
+
+GRAFANA_GROUP={{ grafana_user_group }}
+
+GRAFANA_HOME={{ grafana_home_dir | default("/usr/share/grafana") }}
+
+LOG_DIR=/var/log/grafana
+
+DATA_DIR={{ grafana_data_dir }}
+
+MAX_OPEN_FILES=10000
+
+CONF_DIR={{ grafana_install_root_folder }}
+
+CONF_FILE={{ grafana_install_root_folder}}/grafana.ini
+
+RESTART_ON_UPGRADE=true
+
+PLUGINS_DIR={{ grafana_data_dir }}/plugins
+
+PROVISIONING_CFG_DIR={{ grafana_install_root_folder}}/provisioning
+
+PID_FILE_DIR={{ grafana_install_root_folder }}

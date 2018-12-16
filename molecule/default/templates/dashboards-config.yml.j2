@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+- name: 'rabbitmq'
+  orgId: 1
+  folder: 'RabbitMQ'
+  type: file
+  disableDeletion: false
+  editable: true
+  options:
+    path: {{ grafana_data_dir }}/dashboards/rabbitmq

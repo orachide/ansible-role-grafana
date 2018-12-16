@@ -1,0 +1,8 @@
+---
+# vars file for ansible-role-grafana
+
+grafana_package_url: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-{{ grafana_version }}-1.x86_64.rpm
+
+grafana_service_env_vars_file: /etc/sysconfig/grafana-server
+
+grafana_default_config_file_location: "{{ grafana_install_root_folder }}/grafana.ini"

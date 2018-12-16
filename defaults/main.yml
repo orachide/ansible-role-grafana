@@ -1,0 +1,10 @@
+---
+# defaults file for ansible-role-grafana
+
+grafana_version: 5.4.2
+
+grafana_user: grafana
+grafana_user_group: grafana
+
+grafana_install_root_folder: /etc/grafana
+grafana_data_dir: /var/lib/grafana

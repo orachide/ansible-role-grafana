@@ -1,0 +1,56 @@
+---
+# tasks file for ansible-role-grafana
+
+- name: Install Grafana rpm
+  yum:
+    name: "{{ grafana_package_url }}"
+    state: present
+  notify:
+    - "Restart Grafana service"
+
+- name: Ensure Grafana install root folder exist
+  file:
+    path: "{{ grafana_install_root_folder }}"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user_group }}"
+
+# module file does not change permission
+
+- name: "[FIXME] Allow write to /user/share/grafana to {{ grafana_user}}"
+  command: chmod -R o+rwx /usr/share/grafana
+  args:
+    warn: False
+  changed_when: False
+  notify:
+    - "Restart Grafana service"
+
+- name: Ensure Grafana plugins folder exist
+  file:
+    path: "{{ grafana_install_root_folder }}/plugins"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user_group }}"
+
+- name: Source Grafavna service env_vars
+  template:
+    src: grafana-service-env-vars.j2
+    dest: "{{ grafana_service_env_vars_file }}"
+  notify:
+    - "Restart Grafana service"
+
+- name: Source Grafana global configuration file
+  template:
+    src: grafana.ini.j2
+    dest: "{{ grafana_default_config_file_location }}"
+  notify:
+    - "Restart Grafana service"
+
+- import_tasks: provisioning.yml
+
+- meta: flush_handlers
+
+- name: "Healthcheck | Wait for Grafana to be listening"
+  wait_for:
+    host: localhost
+    port: 3000

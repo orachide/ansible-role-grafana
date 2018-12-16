@@ -1,0 +1,64 @@
+---
+# grafana provisioning tasks file
+
+- name: Provisioning | Ensure Grafana provisioning folders exist
+  file:
+    path: "{{ grafana_data_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user_group }}"
+  with_items:
+    - provisioning
+    - provisioning/dashboards
+    - provisioning/datasources
+    - dashboards
+  notify:
+    - "Restart Grafana service"
+
+- name: Provisioning | Dashboards - Ensure directory structure exists
+  file:
+    path: "{{ grafana_data_dir }}/dashboards/{{ item.path }}"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user_group }}"
+  with_filetree: '{{ grafana_dashboards_templates_path }}'
+  when: item.state == 'directory'
+  notify:
+    - "Restart Grafana service"
+
+- name: Provisioning | Dashboards - Provision Grafana dashboards
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ grafana_data_dir }}/dashboards/{{ item.path }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user_group }}"
+  with_filetree: "{{ grafana_dashboards_templates_path }}"
+  when: item.state == "file"
+  notify:
+    - "Restart Grafana service"
+
+- name: Provisioning | Dashboards - Source Grafana dashboard configurations file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ grafana_data_dir }}/provisioning/dashboards/{{ item.dest }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user_group }}"
+  with_items:
+    - src: "{{ grafana_dashboards_config_template }}"
+      dest: dashboards-config.yml
+  notify:
+    - "Restart Grafana service"
+
+# Datasources
+
+- name: Provisioning | Datasources - Source Grafana datasources configurations file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ grafana_data_dir }}/provisioning/datasources/{{ item.dest }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user_group }}"
+  with_items:
+    - src: "{{ grafana_datasources_templates_path }}/datasource.yml.j2"
+      dest: datasource.yml
+  notify:
+    - "Restart Grafana service"
