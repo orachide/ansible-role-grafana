@@ -6,6 +6,11 @@ Ansible Role Grafana
 
 Ansible role that install Grafana with provisioning datasources and dashboards.
 
+Installation
+------------
+
+    ansible-galaxy install orachide.grafana
+
 Requirements
 ------------
 
