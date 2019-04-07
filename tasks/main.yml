@@ -17,7 +17,7 @@
 
 # module file does not change permission
 
-- name: "[FIXME] Allow write to /user/share/grafana to {{ grafana_user}}"
+- name: "[FIXME] Allow write to /user/share/grafana to {{ grafana_user }}"
   command: chmod -R o+rwx /usr/share/grafana
   args:
     warn: False
@@ -32,13 +32,6 @@
     owner: "{{ grafana_user }}"
     group: "{{ grafana_user_group }}"
 
-- name: Source Grafavna service env_vars
-  template:
-    src: grafana-service-env-vars.j2
-    dest: "{{ grafana_service_env_vars_file }}"
-  notify:
-    - "Restart Grafana service"
-
 - name: Source Grafana global configuration file
   template:
     src: grafana.ini.j2
@@ -49,6 +42,13 @@
 - import_tasks: provisioning.yml
 
 - meta: flush_handlers
+
+- name: Restart Grafana service
+  service:
+    name: grafana-server
+    enabled: yes
+    state: started
+  become: true
 
 - name: "Healthcheck | Wait for Grafana to be listening"
   wait_for:

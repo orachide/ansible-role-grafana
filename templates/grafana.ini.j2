@@ -21,7 +21,7 @@ temp_data_lifetime = 24h
 logs = data/log
 
 # Directory where grafana will automatically scan and look for plugins
-plugins = {{ grafana_install_root_folder }}/plugins
+plugins = {{ grafana_data_dir }}/plugins
 
 # folder that contains provisioning config files that grafana will apply on startup and while running.
 provisioning = {{ grafana_install_root_folder }}/provisioning
@@ -101,7 +101,7 @@ client_cert_path =
 server_cert_name =
 
 # For "sqlite3" only, path relative to data_path setting
-path = {{ grafana_install_root_folder }}/grafana.db
+path = {{ grafana_data_dir }}/grafana.db
 
 #################################### Session #############################
 [session]

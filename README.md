@@ -37,9 +37,6 @@ passed in as parameters) is always nice for users too:
   hosts: all
   roles:
     - role: ansible-role-grafana
-      grafana_install_root_folder: /opt/grafana
-      grafana_data_dir: "{{ grafana_install_root_folder }}"
-      grafana_home_dir: "{{ grafana_install_root_folder }}"
       grafana_datasources_templates_path: "{{ playbook_dir }}/templates/datasources"
       grafana_dashboards_templates_path: "{{ playbook_dir }}/templates/dashboards"
       grafana_dashboards_config_template: "{{ playbook_dir }}/templates/dashboards-config.yml.j2"

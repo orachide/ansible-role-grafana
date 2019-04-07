@@ -8,14 +8,13 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_mandatory_directories_and_files(host):
     dirs = [
-        '/opt/grafana',
-        '/opt/grafana',
-        '/opt/grafana',
-        '/opt/grafana/provisioning',
-        '/opt/grafana/dashboards'
+        '/etc/grafana',
+        '/etc/grafana/provisioning',
+        '/etc/grafana/provisioning/dashboards',
+        '/etc/grafana/provisioning/datasources'
     ]
     files = [
-        '/opt/grafana/grafana.ini'
+        '/etc/grafana/grafana.ini'
     ]
     for directory in dirs:
         d = host.file(directory)
