@@ -1,7 +1,7 @@
 ---
 # defaults file for ansible-role-grafana
 
-grafana_version: 5.4.2
+grafana_version: 8.0.6
 
 grafana_user: grafana
 grafana_user_group: grafana
